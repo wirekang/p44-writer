@@ -1,8 +1,9 @@
-import { P44Api } from "./p44-api.js";
+import { P44Api } from "./api/p44-api";
+import { Io } from "./io/io.js";
 
 declare global {
   interface Window {
-    p44Api: P44Api;
+    io: Io;
   }
 }
 

@@ -19,6 +19,7 @@ const onReady = (): void => {
   });
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  mainWindow.webContents.openDevTools();
 };
 
 app.on("ready", onReady);
