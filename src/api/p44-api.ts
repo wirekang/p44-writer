@@ -20,8 +20,9 @@ import {
 export type P44Api = {
   listLanguages(): Promise<Language[]>;
 
-  addTag(category: TagCategoryId): Promise<TagId>;
-  listTags(): Promise<Tag[]>;
+  addTag(categoryId: TagCategoryId): Promise<TagId>;
+  getTag(id: TagId): Promise<Tag>;
+  listTags(categoryId: TagCategoryId): Promise<Tag[]>;
   updateTag(
     id: TagId,
     label: I18nText,
@@ -31,6 +32,7 @@ export type P44Api = {
   removeTag(id: TagId): Promise<void>;
 
   addTagCategory(): Promise<TagCategoryId>;
+  getTagCategory(id: TagCategoryId): Promise<TagCategory>;
   listTagCategories(): Promise<TagCategory[]>;
   updateTagCategory(
     id: TagCategoryId,
@@ -49,6 +51,7 @@ export type P44Api = {
   removeParagraphTag(id: ParagraphTagId): Promise<void>;
 
   addParagraph(articleId: ArticleId): Promise<ParagraphId>;
+  getParagraph(id: ParagraphId): Promise<Paragraph>;
   listParagraphs(articleId: ArticleId): Promise<Paragraph[]>;
   updateParagraph(
     id: ParagraphId,
@@ -62,6 +65,7 @@ export type P44Api = {
   removeArticleTag(id: ArticleTagId): Promise<void>;
 
   addArticle(): Promise<ArticleId>;
+  getArticle(id: ArticleId): Promise<Article>;
   listArticles(): Promise<Article[]>;
   updateArticle(
     id: ArticleId,

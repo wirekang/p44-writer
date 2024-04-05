@@ -6,5 +6,3 @@ export const p44ApiAtom = atom(async () => {
   await a.init();
   return a;
 });
-
-export const languageAtom = atom("en");

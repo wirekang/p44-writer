@@ -17,11 +17,11 @@ export class MemoryIo implements Io {
         categoryId: 1,
         label: {
           en: "high",
-          ko: null,
+          ko: "",
         },
         description: {
           en: "aksjdlfkasjdlf",
-          ko: null,
+          ko: "",
         },
         priority: 1,
       },
@@ -30,11 +30,11 @@ export class MemoryIo implements Io {
         categoryId: 1,
         label: {
           en: "low",
-          ko: null,
+          ko: "",
         },
         description: {
           en: "qwlekjfalsdkfjal skdfjla ksjdfl kasjdflkajsdf",
-          ko: null,
+          ko: "",
         },
         priority: 2,
       },
@@ -44,14 +44,14 @@ export class MemoryIo implements Io {
         id: 1,
         label: {
           en: "Proud",
-          ko: null,
+          ko: "",
         },
         description: {
           en: "How much proud",
-          ko: null,
+          ko: "",
         },
         target: ["article", "paragraph"],
-        priority: null,
+        priority: 10000,
       },
     },
     article: {},
@@ -71,14 +71,14 @@ export class MemoryIo implements Io {
       if (def !== undefined) {
         return def;
       }
-      throw new Error(`not found: ${collection}/${id}`);
+      throw new Error(`not found. no collection: ${collection}/${id}`);
     }
     const v = col[id];
     if (v === undefined) {
       if (def !== undefined) {
         return def;
       }
-      throw new Error(`not found: ${collection}/${id}`);
+      throw new Error(`not found. no element: ${collection}/${id}`);
     }
     return v;
   }

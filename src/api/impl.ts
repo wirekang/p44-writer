@@ -15,6 +15,7 @@ import {
   ParagraphTagId,
   ArticleId,
   type ArticleTagId,
+  type UnixSeconds,
 } from "p44-types";
 import { P44Api } from "./p44-api";
 import { Io } from "../io/io";
@@ -37,14 +38,14 @@ const LANGUAGES = "languages";
 export class P44ApiImpl implements P44Api {
   private languages: Language[] = [];
   private nullText: I18nText = {} as any;
-  private nullPriority: Priority = null;
+  private nullPriority: Priority = 10000;
 
   constructor(private readonly io: Io) {}
 
   async init() {
     this.languages = await this.io.read<Language[]>(VALUE, LANGUAGES);
     this.languages.forEach((l) => {
-      this.nullText[l] = null;
+      this.nullText[l] = "";
     });
   }
 
@@ -75,8 +76,13 @@ export class P44ApiImpl implements P44Api {
     return id;
   }
 
-  listTags(): Promise<Tag[]> {
-    return this.io.readAll(TAG);
+  getTag(id: number): Promise<Tag> {
+    return this.io.read(TAG, id);
+  }
+
+  async listTags(categoryId: TagCategoryId): Promise<Tag[]> {
+    const tags = await this.io.readAll<Tag>(TAG);
+    return tags.filter((it) => it.categoryId === categoryId);
   }
 
   private async mutate<T>(col: any, id: any, m: Partial<T>) {
@@ -113,6 +119,10 @@ export class P44ApiImpl implements P44Api {
       false,
     );
     return id;
+  }
+
+  getTagCategory(id: number): Promise<TagCategory> {
+    return this.io.read(TAG_CATEGORY, id);
   }
 
   listTagCategories(): Promise<TagCategory[]> {
@@ -179,6 +189,10 @@ export class P44ApiImpl implements P44Api {
     return id;
   }
 
+  getParagraph(id: number): Promise<Paragraph> {
+    return this.io.read(PARAGRAPH, id);
+  }
+
   async listParagraphs(articleId: ArticleId): Promise<Paragraph[]> {
     const paragraphs = await this.io.readAll<Paragraph>(PARAGRAPH);
     return paragraphs.filter((it) => (it.articleId = articleId));
@@ -189,7 +203,11 @@ export class P44ApiImpl implements P44Api {
     text: I18nText,
     draft: boolean,
   ): Promise<void> {
-    return this.mutate<Paragraph>(PARAGRAPH, id, { text, draft });
+    return this.mutate<Paragraph>(PARAGRAPH, id, {
+      text,
+      draft,
+      updatedAt: now(),
+    });
   }
 
   async removeParagraph(id: ParagraphId): Promise<void> {
@@ -237,6 +255,10 @@ export class P44ApiImpl implements P44Api {
     return id;
   }
 
+  getArticle(id: number): Promise<Article> {
+    return this.io.read(ARTICLE, id);
+  }
+
   async listArticles(): Promise<Article[]> {
     return this.io.readAll(ARTICLE);
   }
@@ -247,7 +269,12 @@ export class P44ApiImpl implements P44Api {
     priority: Priority,
     draft: boolean,
   ): Promise<void> {
-    return this.mutate<Article>(ARTICLE, id, { title, priority, draft });
+    return this.mutate<Article>(ARTICLE, id, {
+      title,
+      priority,
+      draft,
+      updatedAt: now(),
+    });
   }
 
   async removeArticle(id: number): Promise<void> {
@@ -255,6 +282,6 @@ export class P44ApiImpl implements P44Api {
   }
 }
 
-function now() {
+function now(): UnixSeconds {
   return Math.floor(Date.now() / 1000);
 }
