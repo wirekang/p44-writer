@@ -36,7 +36,7 @@ export function I18nTextInput(props: {
           <div key={lang} style={props.wrapperStyle}>
             <span style={props.langStyle}>{lang}:</span>
             <input
-              style={props.inputStyle}
+              style={{ width: 300, ...props.inputStyle }}
               value={text}
               onChange={(e) => {
                 props.s({ ...props.v, [lang]: e.target.value });

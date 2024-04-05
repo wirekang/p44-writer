@@ -5,6 +5,8 @@ import { MainPage } from "./MainPage";
 import { ErrorPage } from "./ErrorPage";
 import { TagCategoryPage } from "./TagCategoryPage";
 import { TagTagPage } from "./TagTagPage";
+import { ArticlePage } from "./ArticlePage";
+import { ArticleArticlePage } from "./ArticleArticlePage";
 
 export const routes: RouteObject[] = [
   {
@@ -12,6 +14,14 @@ export const routes: RouteObject[] = [
     errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <MainPage /> },
+      {
+        path: "article/",
+        element: <ArticlePage />,
+      },
+      {
+        path: "article/article/:id",
+        element: <ArticleArticlePage />,
+      },
       {
         path: "tag/",
         element: <TagPage />,

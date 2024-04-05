@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-const links = ["/", "tag", "article"];
+const links = ["/", "article", "tag"];
 
 export function NavBar() {
   return (

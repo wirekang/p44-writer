@@ -51,7 +51,7 @@ export class MemoryIo implements Io {
           ko: "",
         },
         target: ["article", "paragraph"],
-        priority: 10000,
+        priority: 10,
       },
     },
     article: {},
