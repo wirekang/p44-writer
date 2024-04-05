@@ -9,8 +9,8 @@ if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
-Menu.setApplicationMenu(null);
 if (app.isPackaged) {
+  Menu.setApplicationMenu(null);
 }
 
 const onReady = (): void => {
