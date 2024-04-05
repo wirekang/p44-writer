@@ -1,5 +1,5 @@
 import type { Tag, TagCategory } from "p44-types";
-import { useApiQuery } from "../hooks/useApiQuery";
+import { useApiQuery } from "../hooks/api";
 
 export function TagView() {
   const tags = useApiQuery("listTags", []).data ?? [];

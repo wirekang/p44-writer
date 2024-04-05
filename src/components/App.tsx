@@ -1,3 +1,4 @@
+import { KeyboardSystemView } from "./KeyboardSystemView";
 import { LanguageView } from "./LanguageView";
 import { TagView } from "./TagView";
 
@@ -6,6 +7,12 @@ export function App() {
     <div>
       <LanguageView />
       <TagView />
+      <KeyboardSystemView>asdf</KeyboardSystemView>
+      <KeyboardSystemView>asdf</KeyboardSystemView>
+      <KeyboardSystemView>asdf</KeyboardSystemView>
+      <KeyboardSystemView>asdf</KeyboardSystemView>
+      <KeyboardSystemView>asdf</KeyboardSystemView>
+      <KeyboardSystemView>asdf</KeyboardSystemView>
     </div>
   );
 }

@@ -1,30 +1,26 @@
 import { useAtom } from "jotai";
-import { useApiQuery } from "../hooks/useApiQuery";
 import { languageAtom } from "../atoms";
+import { useApiQuery } from "../hooks/api";
+import { KeyboardButtonsView } from "./KeyboardButtonsView";
 
 export function LanguageView() {
-  const languages = useApiQuery("listLanguages", []).data ?? [];
+  const languages = useApiQuery("listLanguages", []).data;
+  const [language, setLanguage] = useAtom(languageAtom);
+
+  if (!languages) {
+    return <>loading</>;
+  }
+
+  const buttons = languages.map((lang) => ({
+    label: lang,
+    cb: () => {
+      setLanguage(lang);
+    },
+  }));
   return (
     <div>
-      <div>Languages: {languages.join()}</div>
-      <SetView to="en" />
-      {" <-> "}
-      <SetView to="ko" />
+      lang:{language}
+      <KeyboardButtonsView buttons={buttons} />
     </div>
-  );
-}
-
-function SetView(props: { to: string }) {
-  const [language, setLanguage] = useAtom(languageAtom);
-  return (
-    <button
-      type="button"
-      onClick={() => {
-        setLanguage(props.to);
-      }}
-      disabled={props.to === language}
-    >
-      {props.to}
-    </button>
   );
 }

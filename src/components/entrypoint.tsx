@@ -1,11 +1,13 @@
-import { createRoot } from "react-dom/client";
-import React, { Suspense } from "react";
-import { App } from "./App";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React, { Suspense } from "react";
+import { createRoot } from "react-dom/client";
+import { App } from "./App";
+import { initKeyboardSystem } from "../utils/keyboard-system";
 
 const qc = new QueryClient({ defaultOptions: { queries: {} } });
 
 export function render() {
+  initKeyboardSystem();
   const root = createRoot(document.getElementById("root")!);
   root.render(
     <React.StrictMode>
