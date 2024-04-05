@@ -1,18 +1,11 @@
 import { contextBridge, ipcRenderer } from "electron";
-import { Io } from "./io/io";
+import { mapIpcInvoke } from "./utils/ipc-bridge";
 
-export function makeIpcIoBridge(channelPrefix: string): Io {
-  return {
-    read: make(`${channelPrefix}:read`),
-    readAll: make(`${channelPrefix}:readAll`),
-    write: make(`${channelPrefix}:write`),
-    delete: make(`${channelPrefix}:delete`),
-  };
-}
+mapIpcInvoke("io", {
+  read: "io:read",
+  readAll: "io:readAll",
+  write: "io:write",
+  delete: "io:delete",
+});
 
-function make(chan: string) {
-  return (...args: any[]) => ipcRenderer.invoke(chan, ...args);
-}
-
-contextBridge.exposeInMainWorld("io", makeIpcIoBridge("io"));
 contextBridge.exposeInMainWorld("prod", ipcRenderer.invoke("prod"));

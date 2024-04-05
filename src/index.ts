@@ -1,5 +1,6 @@
-import { app, BrowserWindow, ipcMain, Menu } from "electron";
+import { app, BrowserWindow, Menu } from "electron";
 import { MemoryIo } from "./io/memory-io";
+import { mapIpcHandle } from "./utils/ipc-bridge";
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -27,23 +28,13 @@ const onReady = (): void => {
 
 const io = new MemoryIo();
 
-ipcMain.handle("prod", () => app.isPackaged);
-ipcMain.handle("io:read", (e, ...args) => {
-  return call(io, io.read, args);
-});
-ipcMain.handle("io:readAll", (e, ...args) => {
-  return call(io, io.readAll, args);
-});
-ipcMain.handle("io:write", (e, ...args) => {
-  return call(io, io.write, args);
-});
-ipcMain.handle("io:delete", (e, ...args) => {
-  return call(io, io.delete, args);
+mapIpcHandle({
+  prod: () => app.isPackaged,
+  "io:read": io.read.bind(io),
+  "io:readAll": io.readAll.bind(io),
+  "io:write": io.write.bind(io),
+  "io:delete": io.delete.bind(io),
 });
 
 app.on("ready", onReady);
 app.on("window-all-closed", app.quit.bind(app));
-
-function call(t: any, f: Function, args: any) {
-  return f.apply(t, args);
-}
