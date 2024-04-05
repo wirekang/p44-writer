@@ -1,13 +1,18 @@
-import { contextBridge } from "electron";
+import { contextBridge, ipcRenderer } from "electron";
 import { Io } from "./io/io";
-import { MemoryIo } from "./io/memory-io";
 
-const memoryIo = new MemoryIo();
-const io: Io = {
-  read: memoryIo.read.bind(memoryIo),
-  write: memoryIo.write.bind(memoryIo),
-  delete: memoryIo.delete.bind(memoryIo),
-  readAll: memoryIo.readAll.bind(memoryIo),
-};
+export function makeIpcIoBridge(channelPrefix: string): Io {
+  return {
+    read: make(`${channelPrefix}:read`),
+    readAll: make(`${channelPrefix}:readAll`),
+    write: make(`${channelPrefix}:write`),
+    delete: make(`${channelPrefix}:delete`),
+  };
+}
 
-contextBridge.exposeInMainWorld("io", io);
+function make(chan: string) {
+  return (...args: any[]) => ipcRenderer.invoke(chan, ...args);
+}
+
+contextBridge.exposeInMainWorld("io", makeIpcIoBridge("io"));
+contextBridge.exposeInMainWorld("prod", ipcRenderer.invoke("prod"));

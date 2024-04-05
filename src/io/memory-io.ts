@@ -4,7 +4,60 @@ export class MemoryIo implements Io {
   private data: Record<string, Record<string, any>> = {
     value: {
       languages: ["en", "ko"],
+      "next-tag-id": 55,
+      "next-tag-category-id": 55,
+      "next-paragraph-id": 55,
+      "next-article-id": 55,
+      "next-paragraph-tag-id": 55,
+      "next-article-tag-id": 55,
     },
+    tag: {
+      1: {
+        id: 1,
+        categoryId: 1,
+        label: {
+          en: "high",
+          ko: null,
+        },
+        description: {
+          en: "aksjdlfkasjdlf",
+          ko: null,
+        },
+        priority: 1,
+      },
+      2: {
+        id: 2,
+        categoryId: 1,
+        label: {
+          en: "low",
+          ko: null,
+        },
+        description: {
+          en: "qwlekjfalsdkfjal skdfjla ksjdfl kasjdflkajsdf",
+          ko: null,
+        },
+        priority: 2,
+      },
+    },
+    "tag-category": {
+      1: {
+        id: 1,
+        label: {
+          en: "Proud",
+          ko: null,
+        },
+        description: {
+          en: "How much proud",
+          ko: null,
+        },
+        target: ["article", "paragraph"],
+        priority: null,
+      },
+    },
+    article: {},
+    "article-tag": {},
+    paragraph: {},
+    "paragraph-tag": {},
   };
 
   async read<T>(
@@ -66,6 +119,10 @@ export class MemoryIo implements Io {
       this.data[collection] = c;
     }
     delete c[id];
+  }
+
+  dump() {
+    return JSON.stringify(this.data);
   }
 
   private log(...args: any[]) {

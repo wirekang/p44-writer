@@ -10,7 +10,7 @@ export function render() {
   root.render(
     <React.StrictMode>
       <QueryClientProvider client={qc}>
-        <Suspense fallback={<div>suspense</div>}>
+        <Suspense fallback={<div>Loading...</div>}>
           <App />
         </Suspense>
       </QueryClientProvider>

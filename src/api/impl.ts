@@ -162,7 +162,7 @@ export class P44ApiImpl implements P44Api {
   }
 
   async addParagraph(articleId: ArticleId): Promise<ParagraphId> {
-    const id = await this.increase("nextParagraphId");
+    const id = await this.increase(NEXT_PARAGRAPH_ID);
     await this.io.write<Paragraph>(
       PARAGRAPH,
       id,

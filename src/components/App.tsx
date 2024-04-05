@@ -1,14 +1,11 @@
-import { useQueryP44Api } from "../hooks/useQueryP44Api";
+import { LanguageView } from "./LanguageView";
+import { TagView } from "./TagView";
 
 export function App() {
-  const api = useQueryP44Api();
-
-  if (api.isError) {
-    return <pre>{`${api.error.stack}`}</pre>;
-  }
-
-  if (!api.isSuccess) {
-    return <div>Initializing...</div>;
-  }
-  return <div></div>;
+  return (
+    <div>
+      <LanguageView />
+      <TagView />
+    </div>
+  );
 }
