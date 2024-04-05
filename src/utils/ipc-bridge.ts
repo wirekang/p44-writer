@@ -11,15 +11,12 @@ export function mapIpcHandle(m: IpcMapping) {
   });
 }
 
-export function mapIpcInvoke(
-  apiKey: string,
-  methodChannels: Record<string, string>,
-) {
+export function mapIpcInvoke(apiKey: string, methods: string[]) {
   const o: any = {};
-  Object.entries(methodChannels).forEach(([m, c]) => {
+  methods.forEach((m) => {
     o[m] = (...args: any) => {
-      console.log("[invoke]", m, c, args);
-      return ipcRenderer.invoke(c, ...args);
+      console.log("[invoke]", apiKey, m, args);
+      return ipcRenderer.invoke(`${apiKey}:${m}`, ...args);
     };
   });
 

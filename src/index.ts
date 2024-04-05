@@ -29,11 +29,12 @@ const onReady = (): void => {
 const io = new MemoryIo();
 
 mapIpcHandle({
-  prod: () => app.isPackaged,
+  "value:prod": () => app.isPackaged,
   "io:read": io.read.bind(io),
   "io:readAll": io.readAll.bind(io),
   "io:write": io.write.bind(io),
   "io:delete": io.delete.bind(io),
+  "io:dump": io.dump.bind(io),
 });
 
 app.on("ready", onReady);
