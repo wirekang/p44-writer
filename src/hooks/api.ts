@@ -30,6 +30,9 @@ export function useApiQuery<T extends keyof P44Api>(
 
 export function useApiMutation<T extends keyof P44Api>(
   method: T,
+  options?: {
+    invalidates?: (keyof P44Api)[];
+  },
 ): UseMutationResult<
   Awaited<ReturnType<P44Api[T]>>,
   Error,
@@ -44,7 +47,13 @@ export function useApiMutation<T extends keyof P44Api>(
       return f.apply(api, args);
     },
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["p44api"] });
+      if (options?.invalidates) {
+        options.invalidates.forEach((m) =>
+          qc.invalidateQueries({ queryKey: ["p44api", m] }),
+        );
+      } else {
+        qc.invalidateQueries({ queryKey: ["p44api"] });
+      }
     },
   });
   return m as any;
