@@ -5,7 +5,8 @@ import { I18nTextInput } from "./common/I18nTextInput";
 import { BoolInput } from "./common/BoolInput";
 import { IntInput } from "./common/IntInput";
 import { SafeButton } from "./common/SafeButton";
-import type { ArticleTag } from "p44-types";
+import { TagSelector } from "./TagSelector";
+import { TagView } from "./TagView";
 
 export function ArticleArticlePage() {
   const articleId = parseInt(useParams()["id"]!, 10);
@@ -16,6 +17,8 @@ export function ArticleArticlePage() {
   const updateMutation = useApiMutation("updateArticle");
   const removeMutation = useApiMutation("removeArticle");
   const articleTags = useApiQuery("listArticleTags", [articleId]).data;
+  const addTagMutation = useApiMutation("addArticleTag");
+  const removeTagMutation = useApiMutation("removeArticleTag");
   return (
     <div>
       <I18nTextInput label="title" v={title} s={setTitle} />
@@ -35,13 +38,17 @@ export function ArticleArticlePage() {
       >
         Remove
       </SafeButton>
-      {articleTags.map((it) => (
-        <ArticleTagView key={it.id} v={it} />
-      ))}
+      <TagView
+        v={articleTags}
+        onRemove={(v) => {
+          removeTagMutation.mutate([v]);
+        }}
+      />
+      <TagSelector
+        onAdd={(tagId) => {
+          addTagMutation.mutate([articleId, tagId]);
+        }}
+      />
     </div>
   );
-}
-
-function ArticleTagView(props: { v: ArticleTag }) {
-  return <div></div>;
 }
