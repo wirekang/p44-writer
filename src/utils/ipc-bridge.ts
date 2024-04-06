@@ -2,11 +2,10 @@ import { contextBridge, ipcMain, ipcRenderer } from "electron";
 
 export type IpcMapping = Record<string, Function>;
 
-export function mapIpcHandle(m: IpcMapping) {
-  Object.entries(m).forEach(([chan, f]) => {
-    ipcMain.handle(chan, (e, ...args) => {
-      console.log("[handle]", chan, args);
-      return f(...args);
+export function mapIpcHandle(apiKey: string, obj: any, methods: string[]) {
+  methods.forEach((m) => {
+    ipcMain.handle(`${apiKey}:${m}`, (e, ...args) => {
+      return obj[m](...args);
     });
   });
 }

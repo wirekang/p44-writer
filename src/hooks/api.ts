@@ -21,6 +21,9 @@ export function useApiQuery<T extends keyof P44Api>(
     queryKey: ["p44api", method, args],
     queryFn: () => {
       const f = api[method] as Function;
+      if (!f) {
+        throw new Error(`no method: ${method}`);
+      }
       return f.apply(api, args);
     },
   });

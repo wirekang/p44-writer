@@ -1,5 +1,6 @@
+import { METHODS } from "./api/p44-api";
 import { mapIpcInvoke } from "./utils/ipc-bridge";
 
-mapIpcInvoke("io", ["read", "readAll", "write", "delete", "dump"]);
+mapIpcInvoke("p44Api", METHODS);
 
 mapIpcInvoke("value", ["prod"]);

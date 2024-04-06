@@ -1,6 +1,7 @@
-import { app, BrowserWindow, Menu } from "electron";
-import { MemoryIo } from "./io/memory-io";
+import { app, BrowserWindow, ipcMain, Menu } from "electron";
 import { mapIpcHandle } from "./utils/ipc-bridge";
+import { SqliteP44Api } from "./api/sqlitep44api";
+import { METHODS } from "./api/p44-api";
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -9,9 +10,7 @@ if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
-if (app.isPackaged) {
-  Menu.setApplicationMenu(null);
-}
+Menu.setApplicationMenu(null);
 
 const onReady = (): void => {
   const mainWindow = new BrowserWindow({
@@ -26,16 +25,10 @@ const onReady = (): void => {
   mainWindow.webContents.openDevTools();
 };
 
-const io = new MemoryIo();
+const p44api = new SqliteP44Api("main.db");
 
-mapIpcHandle({
-  "value:prod": () => app.isPackaged,
-  "io:read": io.read.bind(io),
-  "io:readAll": io.readAll.bind(io),
-  "io:write": io.write.bind(io),
-  "io:delete": io.delete.bind(io),
-  "io:dump": io.dump.bind(io),
-});
+ipcMain.handle("value:prod", () => app.isPackaged);
+mapIpcHandle("p44Api", p44api, METHODS);
 
 app.on("ready", onReady);
 app.on("window-all-closed", app.quit.bind(app));

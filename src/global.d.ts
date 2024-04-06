@@ -3,7 +3,7 @@ import { Io } from "./io/io.js";
 
 declare global {
   interface Window {
-    io: Io;
+    p44Api: P44Api;
   }
 }
 

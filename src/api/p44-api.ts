@@ -17,6 +17,36 @@ import {
   TagTarget,
 } from "p44-types";
 
+export const METHODS: (keyof P44Api)[] = [
+  "addArticle",
+  "addArticleTag",
+  "addParagraph",
+  "addParagraphTag",
+  "addTag",
+  "addTagCategory",
+  "getArticle",
+  "getParagraph",
+  "getTag",
+  "getTagCategory",
+  "listArticleTags",
+  "listArticles",
+  "listLanguages",
+  "listParagraphs",
+  "listParagraphTags",
+  "listTagCategories",
+  "listTags",
+  "removeArticle",
+  "removeArticleTag",
+  "removeParagraph",
+  "removeParagraphTag",
+  "removeTag",
+  "removeTagCategory",
+  "updateArticle",
+  "updateParagraph",
+  "updateTag",
+  "updateTagCategory",
+];
+
 export type P44Api = {
   listLanguages(): Promise<Language[]>;
 
