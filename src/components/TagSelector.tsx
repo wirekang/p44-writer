@@ -17,7 +17,7 @@ export function TagSelector(props: Props) {
   const [open, setOpen] = useState(false);
 
   if (!open) {
-    return <button onClick={setOpen.bind(null, true)}>New</button>;
+    return <button onClick={setOpen.bind(null, true)}>TAG</button>;
   }
 
   return (
@@ -37,9 +37,11 @@ function Inner(props: Props & { onClose: () => unknown }) {
     <div
       style={{
         position: "fixed",
-        top: 100,
-        left: 100,
+        top: 200,
+        left: 200,
         backgroundColor: "white",
+        padding: 16,
+        border: "1px solid black",
       }}
     >
       <button onClick={props.onClose}>Close</button>

@@ -7,7 +7,7 @@ export function TagView(props: {
   onRemove: (id: any) => unknown;
 }) {
   return (
-    <div>
+    <div style={{ border: "1px solid grey" }}>
       {props.v.map((v) => (
         <FuckingSlowTagView key={v.id} v={v} onRemove={props.onRemove} />
       ))}

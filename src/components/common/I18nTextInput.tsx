@@ -10,6 +10,7 @@ export function I18nTextInput(props: {
   label?: string;
   v: I18nText;
   s: (v: I18nText) => unknown;
+  textarea?: boolean;
 }) {
   return (
     <div
@@ -20,28 +21,49 @@ export function I18nTextInput(props: {
         ...props.containerStyle,
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          minWidth: "100px",
-          marginRight: 4,
-          ...props.labelStyle,
-        }}
-      >
-        {props.label}
-      </div>
+      {props.label && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            minWidth: "100px",
+            marginRight: 4,
+            ...props.labelStyle,
+          }}
+        >
+          {props.label}
+        </div>
+      )}
       <div>
         {Object.entries(props.v).map(([lang, text]) => (
           <div key={lang} style={props.wrapperStyle}>
-            <span style={props.langStyle}>{lang}:</span>
-            <input
-              style={{ width: 300, ...props.inputStyle }}
-              value={text}
-              onChange={(e) => {
-                props.s({ ...props.v, [lang]: e.target.value });
+            <span
+              style={{
+                ...props.langStyle,
               }}
-            />
+            >
+              {lang}:
+            </span>
+            {!props.textarea && (
+              <input
+                style={{ width: 300, ...props.inputStyle }}
+                value={text}
+                onChange={(e) => {
+                  props.s({ ...props.v, [lang]: e.target.value });
+                }}
+              />
+            )}
+            {props.textarea && (
+              <textarea
+                style={{ ...props.inputStyle }}
+                rows={10}
+                cols={60}
+                value={text}
+                onChange={(e) => {
+                  props.s({ ...props.v, [lang]: e.target.value });
+                }}
+              />
+            )}
           </div>
         ))}
       </div>

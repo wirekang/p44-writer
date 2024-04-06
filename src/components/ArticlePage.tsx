@@ -33,7 +33,7 @@ function ArticleSummary(props: { v: Article }) {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "100px 50px 100px 20px 200px",
+        gridTemplateColumns: "100px 50px 100px 20px 800px",
       }}
     >
       <Link to={`/article/article/${props.v.id}`}>Detail</Link>
